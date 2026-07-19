@@ -1,4 +1,48 @@
-cd SystemHUD-App
-git add .
-git commit -m "Add GitHub Actions workflow"
-git push
+name: Build IPA
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:   # cho phep bam nut "Run workflow" thu cong tren GitHub
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Cai XcodeGen
+        run: brew install xcodegen
+
+      - name: Sinh file .xcodeproj tu project.yml
+        run: xcodegen generate
+
+      - name: Build app (khong ky code - unsigned build)
+        run: |
+          xcodebuild -project SystemHUD.xcodeproj \
+            -scheme SystemHUD \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Dong goi thanh .ipa (unsigned)
+        run: |
+          mkdir -p Payload
+          cp -r build/Build/Products/Release-iphoneos/SystemHUD.app Payload/
+          zip -r SystemHUD-unsigned.ipa Payload
+
+      - name: Upload .ipa nhu artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SystemHUD-ipa
+          path: SystemHUD-unsigned.ipa
+
+          
