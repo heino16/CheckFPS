@@ -1,0 +1,27 @@
+name: SystemHUD
+options:
+  bundleIdPrefix: com.yourname
+  deploymentTarget:
+    iOS: "15.0"
+
+targets:
+  SystemHUD:
+    type: application
+    platform: iOS
+    sources:
+      - path: SystemHUD
+    info:
+      path: SystemHUD/Info.plist
+      properties:
+        CFBundleDisplayName: SystemHUD
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourname.systemhud
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: NO

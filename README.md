@@ -42,22 +42,34 @@ SystemHUD-App/
 5. Chọn thiết bị thật (hoặc simulator để test giao diện, lưu ý pin/RAM trên
    simulator sẽ không chính xác), nhấn **Run**.
 
-## Build ra file .ipa để sideload
+## Build ra file .ipa — 2 cách
+
+### Cách 1: Tự động qua GitHub Actions (không cần Mac)
+
+Repo này đã có sẵn `.github/workflows/build-ipa.yml` + `project.yml`. Mỗi khi bạn
+push code lên nhánh `main` (hoặc bấm "Run workflow" thủ công trên tab **Actions**
+của GitHub), GitHub sẽ tự:
+
+1. Dùng máy ảo macOS miễn phí (`macos-14`)
+2. Cài **XcodeGen**, tự sinh file `.xcodeproj` từ `project.yml` (không cần bạn có Xcode)
+3. Build app ở chế độ **unsigned** (chưa ký code)
+4. Đóng gói thành `SystemHUD-unsigned.ipa`
+
+Sau khi workflow chạy xong (vào tab **Actions** trên GitHub repo của bạn → chọn lần
+chạy gần nhất → mục **Artifacts**), tải file `SystemHUD-ipa.zip` về, giải nén ra
+được `SystemHUD-unsigned.ipa`.
+
+> Lưu ý: file `.ipa` này **chưa ký code**, không cài trực tiếp bằng cách chạm vào
+> file được. Cần dùng công cụ ký lại + cài như **AltStore**, **Sideloadly**, hoặc
+> **TrollStore** (nếu máy hỗ trợ) — các công cụ này tự ký file `.ipa` bằng Apple ID
+> của bạn (miễn phí) hoặc chứng chỉ enterprise khi cài vào máy.
+
+### Cách 2: Build thủ công bằng Xcode (nếu có máy Mac)
 
 ```bash
-# Archive
-xcodebuild -scheme SystemHUD -configuration Release archive \
-  -archivePath build/SystemHUD.xcarchive
-
-# Export .ipa (cần file ExportOptions.plist tương ứng phương thức ký của bạn)
-xcodebuild -exportArchive \
-  -archivePath build/SystemHUD.xcarchive \
-  -exportPath build/ipa \
-  -exportOptionsPlist ExportOptions.plist
+xcodebuild -scheme SystemHUD -configuration Release archive -archivePath build/SystemHUD.xcarchive
+xcodebuild -exportArchive -archivePath build/SystemHUD.xcarchive -exportPath build/ipa -exportOptionsPlist ExportOptions.plist
 ```
-
-File `.ipa` xuất ra dùng để cài qua **AltStore**, **Sideloadly**, **TrollStore**
-(nếu máy hỗ trợ), hoặc cài trực tiếp qua Xcode khi cắm dây.
 
 ## Tùy chỉnh
 
@@ -68,5 +80,14 @@ File `.ipa` xuất ra dùng để cài qua **AltStore**, **Sideloadly**, **Troll
 - Gán hành động thật cho các toggle: sửa hàm
   `applyFeatureToggle(key:enabled:)` trong `HUDOverlayWindow.swift`.
 
+## Đưa lên GitHub
 
+```bash
+cd SystemHUD-App
+git init
+git add .
+git commit -m "SystemHUD app: floating in-app bubble HUD (FPS/battery/RAM + quick toggles)"
+git branch -M main
+git remote add origin https://github.com/<ten-ban>/SystemHUD-App.git
+git push -u origin main
 ```
