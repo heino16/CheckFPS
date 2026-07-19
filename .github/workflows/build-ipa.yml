@@ -1,0 +1,4 @@
+cd SystemHUD-App
+git add .
+git commit -m "Add GitHub Actions workflow"
+git push
