@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>System HUD</title>
+<link rel="stylesheet" href="hud.css">
+</head>
+<body>
+  <div class="hud-container">
+    <div class="hud-header">
+      <span class="hud-title">System HUD</span>
+      <button class="close-btn" onclick="closePanel()">×</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">FPS</div>
+        <div class="stat-value" id="fps-value">--</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pin</div>
+        <div class="stat-value" id="battery-value">--%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">RAM</div>
+        <div class="stat-value" id="ram-value">-- MB</div>
+      </div>
+    </div>
+
+    <div class="toggle-section">
+      <div class="toggle-row">
+        <span>Chế độ tối (trong app)</span>
+        <label class="switch">
+          <input type="checkbox" onchange="sendToggle('darkmode', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <span>Hiện FPS liên tục</span>
+        <label class="switch">
+          <input type="checkbox" checked onchange="sendToggle('showfps', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <span>Shortcut: mở màn hình A</span>
+        <label class="switch">
+          <input type="checkbox" onchange="sendToggle('shortcutA', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <script src="hud.js"></script>
+</body>
+</html>
