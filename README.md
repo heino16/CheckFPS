@@ -68,14 +68,5 @@ File `.ipa` xuất ra dùng để cài qua **AltStore**, **Sideloadly**, **Troll
 - Gán hành động thật cho các toggle: sửa hàm
   `applyFeatureToggle(key:enabled:)` trong `HUDOverlayWindow.swift`.
 
-## Đưa lên GitHub
 
-```bash
-cd SystemHUD-App
-git init
-git add .
-git commit -m "SystemHUD app: floating in-app bubble HUD (FPS/battery/RAM + quick toggles)"
-git branch -M main
-git remote add origin https://github.com/<ten-ban>/SystemHUD-App.git
-git push -u origin main
 ```
